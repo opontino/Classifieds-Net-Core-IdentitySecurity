@@ -3,6 +3,7 @@ using Classifieds.Data.Entities;
 using Classifieds.Web.Constants;
 using Classifieds.Web.Services;
 using Classifieds.Web.Services.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -52,12 +53,16 @@ namespace Classifieds.Web
                 .AddPasswordValidator<PasswordValidatorService>()
                 .AddClaimsPrincipalFactory<CustomClaimsService>();
 
-            services.AddAuthentication()
-                .AddGoogle(googleOptions => {
-                    googleOptions.ClientId = Configuration["Google:ClientId"];
-                    googleOptions.ClientSecret = Configuration["Google:ClientSecret"];
-                });
-              
+            //services.AddAuthentication()
+            //    .AddGoogle(googleOptions => {
+            //        googleOptions.ClientId = Configuration["Google:ClientId"];
+            //        googleOptions.ClientSecret = Configuration["Google:ClientSecret"];
+            //    });
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
+           
+
 
             services.AddAuthorization(options =>
             {
